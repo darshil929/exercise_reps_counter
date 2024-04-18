@@ -25,7 +25,7 @@ def calculate_angle(a,b,c):
 def count_bicep_curls(angle, stage, counter):
     if angle > 160:
         stage = "down"
-    if angle < 30 and stage == "down":
+    elif angle < 30 and stage == "down":
         stage = "up"
         counter += 1
         print("Counter : ", counter)
@@ -35,7 +35,7 @@ def count_bicep_curls(angle, stage, counter):
 def count_shoulder_press(angle, stage, counter):
     if angle > 150:
         stage = "up"
-    if angle <= 90 and stage == "up":
+    elif angle <= 90 and stage == "up":
         stage = "down"
         counter += 1
         print("Counter : ", counter)
@@ -45,8 +45,18 @@ def count_shoulder_press(angle, stage, counter):
 def count_push_ups(angle, stage, counter):
     if angle <  60:
         stage = "down"
-    if angle >=150 and stage == "down":
+    elif angle >=150 and stage == "down":
         stage = "up"
+        counter += 1
+        print("Counter : ", counter)
+    return stage, counter
+
+# pull-ups
+def  count_pull_ups(angle, stage, counter):
+    if angle < 45:
+        stage = "up"
+    elif angle >= 140 and stage == "up":
+        stage = "down"
         counter += 1
         print("Counter : ", counter)
     return stage, counter
@@ -92,8 +102,10 @@ def main():
                     stage, counter = count_bicep_curls(angle, stage, counter)
                 elif selected_exercise == "shoulder_press":
                     stage, counter = count_shoulder_press(angle, stage, counter)
-                elif  selected_exercise == "push_ups":
+                elif selected_exercise == "push_ups":
                     stage, counter = count_push_ups(angle, stage, counter)
+                elif selected_exercise == "pull_ups":
+                    stage, counter = count_pull_ups(angle, stage, counter)
 
             except Exception as e: 
                 print(e)
@@ -111,10 +123,10 @@ def main():
                         (90, 60),
                         cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
 
-            cv2.putText(image, 'Exercise Name: ', (320, 12),
+            cv2.putText(image, 'Exercise Name: ', (330, 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
             cv2.putText(image, selected_exercise.replace("_", " ").upper(),
-                        (320, 60),
+                        (330, 60),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
             # Detection rendering
@@ -137,6 +149,7 @@ if __name__ == "__main__":
     print("1. Bicep Curls")
     print("2. Shoulder Press")
     print("3. Push Ups")
+    print("4. Pull Ups")
     choice = input("Enter your choice : ")
 
     selected_exercise = None
@@ -148,6 +161,8 @@ if __name__ == "__main__":
         selected_exercise = "shoulder_press"
     elif choice == "3":
         selected_exercise = "push_ups"
+    elif choice == "4":
+        selected_exercise = "pull_ups"
     else:
         print("Invalid choice!")
 
