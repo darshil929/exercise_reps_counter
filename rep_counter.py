@@ -41,6 +41,16 @@ def count_shoulder_press(angle, stage, counter):
         print("Counter : ", counter)
     return stage, counter
 
+# push-ups
+def count_push_ups(angle, stage, counter):
+    if angle <  60:
+        stage = "down"
+    if angle >=150 and stage == "down":
+        stage = "up"
+        counter += 1
+        print("Counter : ", counter)
+    return stage, counter
+
 #--------------------------------------------------#
 
 def main():
@@ -82,6 +92,8 @@ def main():
                     stage, counter = count_bicep_curls(angle, stage, counter)
                 elif selected_exercise == "shoulder_press":
                     stage, counter = count_shoulder_press(angle, stage, counter)
+                elif  selected_exercise == "push_ups":
+                    stage, counter = count_push_ups(angle, stage, counter)
 
             except Exception as e: 
                 print(e)
@@ -99,6 +111,8 @@ def main():
                         (90, 60),
                         cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2, cv2.LINE_AA)
 
+            cv2.putText(image, 'Exercise Name: ', (320, 12),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1, cv2.LINE_AA)
             cv2.putText(image, selected_exercise.replace("_", " ").upper(),
                         (320, 60),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
@@ -122,6 +136,7 @@ if __name__ == "__main__":
     print("Select the exercise:")
     print("1. Bicep Curls")
     print("2. Shoulder Press")
+    print("3. Push Ups")
     choice = input("Enter your choice : ")
 
     selected_exercise = None
@@ -131,6 +146,8 @@ if __name__ == "__main__":
         selected_exercise = "bicep_curls"
     elif choice == "2":
         selected_exercise = "shoulder_press"
+    elif choice == "3":
+        selected_exercise = "push_ups"
     else:
         print("Invalid choice!")
 
